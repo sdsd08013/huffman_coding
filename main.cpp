@@ -7,6 +7,75 @@ int N = 12;
 // string L[18] = { "m", "i", "s", "s", "p", "e", "l", "l", "e", "d", "v", "a", "r", "i", "a", "b", "l", "e" };
 int L[12] = { 13, 1 , 3 , 31, 3, 2,1, 23,45,6, 7, 7 };
 
+struct node {
+  node *parent;
+  node *left;
+  node *right;
+  node *next;
+  unsigned int freq;
+  char chr;
+};
+
+struct code {
+  char chr;
+  int value;
+  char bit;
+  code *next;
+};
+
+node *newNode(char chr){
+  node *newNode;
+
+  newNode = new node;
+  if(newNode == nullptr){
+    return nullptr;
+  }
+
+  newNode->parent = nullptr;
+  newNode->left = nullptr;
+  newNode->right = nullptr;
+  newNode->next = nullptr;
+
+  newNode->freq = 1;
+  newNode->chr = chr;
+
+  return newNode;
+}
+
+node *searchNode(node *node, char chr){
+  while(node != nullptr){
+    if(node->chr == chr){
+      return node;
+    }
+    node = node->next;
+  }
+  return node;
+}
+
+void countup() {
+  ll size = sizeof(L);
+  node *head;
+  node *tail;
+  node *add;
+  node *searchedNode;
+  head = nullptr;
+
+  searchedNode = searchNode(head, 1);
+
+  if(searchedNode == nullptr){
+    add = newNode('a');
+    if(head == nullptr) {
+      head = add;
+      tail = add;
+    } else {
+      tail->next = add;
+      tail = add;
+    }
+  } else {
+    searchedNode->freq++;
+  }
+}
+
 int main() {
   ll ans = 0;
 
@@ -39,6 +108,10 @@ int main() {
     L[mii2] = L[N-1];
     cout << "mii1:" << L[mii1] << " mii2:" << L[mii2] << " L[N-1]:" << L[N-1] << " N-1:" << N-1 << endl;
     N--;
+
+    node *n = searchNode(nullptr, 1);
+
+    cout << hex << &n->freq << endl;
   }
 
   cout << ans;
